@@ -1,30 +1,26 @@
+# A single class called phoneBook that connects to, searches, and edits a mysql database
 
 import mysql.connector
 
 class phoneBook:
-  '''
-  A class for interfacing with a mysql database
-  '''
-  def __init__(self):
-    '''
-    Create a connection to the database
-    '''
+  def __init__(self): # Connect to the database using login info
+    # View databases at http://cslab.kenyon.edu/phpmyadmin/index.php?db=felleson1&target=db_structure.php
     HOST = "localhost"
-    USER = "test"
-    DB = "test"
-    PASS="KenyonTest2020"
-    self.mydb = mysql.connector.connect(
+    USER = "yourUsername" # CHANGE THIS
+    DB = "yourUsername" # CHANGE THIS. This is the parent of the table you want to access made, shown on the left of the phpmyadmin page. Probably your username, but you should also have access to a database named after your team.
+    PASS= "yourStudentID" # CHANGE THIS
+    self.mydb = mysql.connector.connect( # Uses the connect function from the mysql.connector library to get access to your database. Makes that database into an attribute (named mydb) of the object 'self'
       host=HOST,
       user=USER,
       passwd=PASS,
       database=DB,
-      auth_plugin='mysql_native_password'
+      auth_plugin='mysql_native_password' # ?? This is an optional argument, not sure why we're using it here
     )
     return
 
   def findByLast(self,last):
     mycursor = self.mydb.cursor()
-    mycursor.execute("SELECT * FROM PhoneBook WHERE Last like '%"+last+"%'");
+    mycursor.execute("SELECT * FROM PhoneBook WHERE Last like '%"+last+"%'"); # SQL code that manipulates the table PhoneBook in your database
     myresult = mycursor.fetchall()
     return(myresult)
 
