@@ -1,16 +1,18 @@
+# I don't think this is used in the online app, just for debugging
+
 import mysql.connector
-import json
+import json # Import the json python package
 
-from phoneBook import phoneBook
+from phoneBook import phoneBook # Imports the phoneBook class from phoneBook.py (i think). That doesn't include the import mysql.connector line in phoneBook.py, so that's why that library is loaded above
 
-pb=phoneBook()
+pb=phoneBook() # Rename the class phoneBook to pb
 
 o=input("Select an option (1-serach first, 2-search last, 3-search type, 4-add, 5-edit, 6-delete, 7-end): ")
 while o!='7':
   if o=='1':
     search=input("First name: ")
-    pbResults=pb.findByFirst(search)
-    print(json.dumps(pbResults))
+    pbResults=pb.findByFirst(search) # Execute the findByFirst function from the phoneBook (pb) class
+    print(json.dumps(pbResults)) # Print the list of tuples that funciton returns (the subset of the table you searched for). use json.dumps to convert the Python object (list of tuples) into a json string first because... it looks slightly different that way.
   elif o=='2':
     search=input("Last name: ")
     pbResults=pb.findByLast(search)
