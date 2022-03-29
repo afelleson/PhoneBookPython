@@ -9,13 +9,11 @@ import cgitb
 # the following causes a message to be written in /fifo if the python program fails
 cgitb.enable(display=0, logdir="/home/fifo")
 
-# Must be of form  '/home/students/username/PhoneBookPython/' for students
-sys.path.insert(1, '/home/skon/PhoneBookPython/')
+sys.path.insert(1, '/home/students/username/PhoneBookPython/') #CHANGE. I think this is the path to your 'home' in cslab: where you go when you first log in via ssh (and then the PhoneBookPython folder inside that)
 
-from phoneBook import phoneBook
+from phoneBook import phoneBook # Import the phoneBook class form phoneBook.py
 
-def fixAttr(s):
-  # fix missing attribute by converting to empty string
+def fixAttr(s): # Funciton to fix a missing attribute by converting it to an empty string
   if s==None:
     return("")
   return(s)
@@ -26,22 +24,22 @@ def printHeader():
 def main():
   printHeader()
   # the following allow debug messages to be written into /tmp
-  # If you use, change file name to your username.
-  #l=open("/home/fifo/skon.log","a")
+  # If you use, CHANGE file name to your username.
+  #l=open("/home/fifo/username.log","a")
   #l.write("Test Message:")
-  pb=phoneBook()
-  form = cgi.FieldStorage()
-  if (form.getvalue("operation")):
+  pb=phoneBook() # Rename phoneBook class to pb
+  form = cgi.FieldStorage() # Class of cgi used to access submitted form data (like mode and search terms)
+  if (form.getvalue("operation")): # Read user-selected mode
     operation=form.getvalue("operation")
     #]write("op:"+operation)
-    search=form.getvalue("find")
+    search=form.getvalue("find") # Read the search terms typed by the user
     # Fix Null search parameter
     search=fixAttr(search)
     if search==None:
       search=""
     if "Last" in operation:
-      pbResults=pb.findByLast(search)
-      print(json.dumps(pbResults))
+      pbResults=pb.findByLast(search) # Execute the appropriate function
+      print(json.dumps(pbResults)) # Convert table subset output to json string & print it
     elif "First" in operation:
       pbResults=pb.findByFirst(search)
       print(json.dumps(pbResults))
